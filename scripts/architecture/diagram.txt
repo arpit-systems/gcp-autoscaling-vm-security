@@ -1,0 +1,12 @@
+Client → Internet → Firewall Rule (allow-http)
+                    ↓
+            Load Balancer Health Check
+                    ↓
+         Managed Instance Group
+           ├── VM Instance 1
+           ├── VM Instance 2
+           └── VM Instance 3
+
+Auto Scaling:
+• Scale out when CPU > 60%
+• Scale in when CPU decreases
