@@ -1,12 +1,27 @@
-Client → Internet → Firewall Rule (allow-http)
-                    ↓
-            Load Balancer Health Check
-                    ↓
-         Managed Instance Group
-           ├── VM Instance 1
-           ├── VM Instance 2
-           └── VM Instance 3
+                    Internet Users
+                           │
+                           ▼
+                ┌────────────────────┐
+                │   Firewall Rule    │
+                │   allow-http       │
+                └────────────────────┘
+                           │
+                           ▼
+            ┌────────────────────────────┐
+            │ Managed Instance Group     │
+            │ autoscale-group            │
+            │ Min: 1   Max: 3 instances  │
+            └────────────────────────────┘
+                  │        │        │
+                  ▼        ▼        ▼
+             ┌────────┐ ┌────────┐ ┌────────┐
+             │ VM 1   │ │ VM 2   │ │ VM 3   │
+             │ Apache │ │ Apache │ │ Apache │
+             └────────┘ └────────┘ └────────┘
 
-Auto Scaling:
-• Scale out when CPU > 60%
-• Scale in when CPU decreases
+                ▲
+                │
+        ┌───────────────────┐
+        │ HTTP Health Check │
+        │ Port 80           │
+        └───────────────────┘
